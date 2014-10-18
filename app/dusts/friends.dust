@@ -1,0 +1,7 @@
+{#data}
+<li>
+    <span>{.username}</span>
+    <span>{.id}</span>
+    <input type="radio" name="owner" value="{.id}">
+</li>
+{/data}

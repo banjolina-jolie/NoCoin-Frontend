@@ -1,5 +1,6 @@
 require.config({
   paths: {
+    "dust": "../bower_components/dustjs-linkedin/dist/dust-full",
     "underscore": "../bower_components/lodash/dist/lodash.underscore",
     "lodash": "../bower_components/lodash/dist/lodash",
     "template": "../bower_components/lodash-template-loader/loader",
