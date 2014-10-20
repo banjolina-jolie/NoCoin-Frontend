@@ -7,6 +7,9 @@ var User = Backbone.Model.extend({
     },
 
     parse: function(res) {
+        if (!res.data) {
+            this.trigger('error');
+        }
         return res.data;
     }
 

@@ -16,15 +16,15 @@ module.exports = ->
     # "karma:run"
     "processhtml"
     "copy"
-    "requirejs"
     "dustjs:compile"
     "styles"
     "cssmin"
   ]
 
   @registerTask "default", [
+    # "requirejs"
     "dustjs:compile"
     # "connect"
-    # "watch"
     "server"
+    # "watch"
   ]

@@ -5,4 +5,4 @@ module.exports = ->
         options:
             livereload: true
         files: ["**/*.js", "**/*.dust"]
-        tasks: ["dustjs:compile", "connect"]
+        tasks: ["dustjs:compile", "server"]

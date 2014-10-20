@@ -9,20 +9,37 @@ var SignInView = Backbone.View.extend({
     el: '#main',
 
     events: {
-        'click #login': 'login',
-        'click #get-friends': 'getFriends',
-        'click #make-payment': 'makePayment'
+        'click #make-payment': 'makePayment',
+        'keyup #searchFriends': 'searchFriends'
+    },
+
+    setup: function() {
+        this.accessToken = this.accessToken || this.getQueryVariable('access_token');
+        if (!this.accessToken) {
+            this.login();
+            return;
+        }
+        this.user = new UserModel({ accessToken: this.accessToken });
+        this.listenToOnce(this.user, 'sync', this.render);
+        this.listenToOnce(this.user, 'error', this.login);
+        this.user.fetch();
     },
 
     render: function() {
+        var data = {};
+        data._userLoaded = !!this.user.get('user');
 
-        dust.render('welcome', {}, function(err, out) {
+        dust.render('welcome', data, function(err, out) {
             this.$el.html(out);
         }.bind(this));
 
-        if (this.userLoaded()) {
-            this.addPaymentButton();
+        if (!this.userLoaded()) {
+            this.user.fetch();
+            return;
         }
+
+        // this.getFriends();
+        this.getDevices();
 
         return this;
     },
@@ -44,26 +61,14 @@ var SignInView = Backbone.View.extend({
     },
 
     userLoaded: function() {
-        this.accessToken = this.getQueryVariable('access_token');
-
-        if (!accessToken) {
-            this.login();
-            return;
-        }
 
         this.user = this.user || new UserModel({ accessToken: accessToken });
 
         if (!this.user.get('user')) {
-            this.listenToOnce(this.user, 'sync', this.render);
-            this.user.fetch();
             return false;
         }
 
         return true;
-    },
-
-    addPaymentButton: function() {
-        this.$el.append('<button id="make-payment">make 1 cent payment</button>');
     },
 
     getFriends: function() {
@@ -77,6 +82,15 @@ var SignInView = Backbone.View.extend({
         this.listenToOnce(this.friends, 'sync', this.renderFriends);
 
         this.friends.fetch();
+    },
+
+    getDevices: function() {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:3000/devices'
+        }).done(function(res) {
+            console.log(res);
+        });
     },
 
     renderFriends: function(options) {
@@ -97,12 +111,27 @@ var SignInView = Backbone.View.extend({
 
         $.ajax({
             type: 'GET',
-            url: 'http://localhost:3000/pay',
+            url: 'http://localhost:3000/payfriend',
             data: {
                 user_id: friend,
                 access_token: this.user.get('accessToken')
             }
         });
+    },
+
+    searchFriends: function(e) {
+        var search = $(e.currentTarget).val();
+        var regex = new RegExp(search, 'i');
+
+        this.friends.each(function(friend) {
+            var name = friend.get('username');
+            var $row = this.$('#' + friend.id);
+            if (name.match(regex)) {
+                $row.show();
+            } else {
+                $row.hide();
+            }
+        }.bind(this));
     }
 
 });

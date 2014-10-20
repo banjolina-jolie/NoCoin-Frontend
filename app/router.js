@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 
     // External dependencies.
     var Backbone = require('backbone');
-    var SignIn = require('./views/SignIn');
+    var SignInView = require('./views/SignIn');
 
     // Defining the application router.
     var Router = Backbone.Router.extend({
@@ -12,11 +12,17 @@ define(function(require, exports, module) {
         },
 
         index: function() {
-            var view = new SignIn();
+            var view = new SignInView();
 
-            view.render();
+            view.setup();
+        },
+
+        login: function() {
+            var url = 'https://api.venmo.com/v1/oauth/authorize?client_id=2026&redirect_uri=http://localhost:8000/&scope=access_friends%20make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=token';
+            window.location.href = url;
         }
     });
 
   module.exports = Router;
+
 });
