@@ -14,10 +14,10 @@ var FriendsList = Backbone.Collection.extend({
     parse: function(res) {
         res = res.data;
 
-        if (res.id) {
-            this.id = res.id;
-            this.set('id', res.id);
-        }
+        // if (res.id) {
+        //     this.id = res.id;
+        //     this.set('id', res.id);
+        // }
         return res;
     }
 });

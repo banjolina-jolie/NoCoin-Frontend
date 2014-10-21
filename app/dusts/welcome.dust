@@ -1,3 +1,10 @@
-{?_userLoaded}
+<div>
+    <a href="/devices"><button id="start-devices">Search Devices</button></a>
+</div>
+<div>
+    <button id="start-friends">Search Friends</button>
+</div>
+<!-- {?_userLoaded}
     <button id="make-payment">make 1 cent payment</button>
 {/_userLoaded}
+ -->

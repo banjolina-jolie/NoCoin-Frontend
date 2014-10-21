@@ -1,6 +1,5 @@
 var Backbone = require('backbone');
 var app = require('app');
-var router = require('router');
 var FriendsList = require('../collections/FriendsList');
 var UserModel = require('../models/User');
 
@@ -9,19 +8,22 @@ var SignInView = Backbone.View.extend({
     el: '#main',
 
     events: {
-        'click #make-payment': 'makePayment',
-        'keyup #searchFriends': 'searchFriends'
+        // 'click #make-payment': 'makePayment',
+        // 'keyup #searchFriends': 'searchFriends',
+        // 'click #start-devices': 'startDevices',
+        'click #start-friends': 'startFriends'
+    },
+
+    initialize: function(options) {
+        this.user = options.user;
+        this.router = options.router;
     },
 
     setup: function() {
-        this.accessToken = this.accessToken || this.getQueryVariable('access_token');
-        if (!this.accessToken) {
-            this.login();
-            return;
-        }
-        this.user = new UserModel({ accessToken: this.accessToken });
+
+        this.user = new UserModel({ accessToken: this.router.accessToken });
         this.listenToOnce(this.user, 'sync', this.render);
-        this.listenToOnce(this.user, 'error', this.login);
+        this.listenToOnce(this.user, 'error', router.login);
         this.user.fetch();
     },
 
@@ -32,14 +34,6 @@ var SignInView = Backbone.View.extend({
         dust.render('welcome', data, function(err, out) {
             this.$el.html(out);
         }.bind(this));
-
-        if (!this.userLoaded()) {
-            this.user.fetch();
-            return;
-        }
-
-        // this.getFriends();
-        this.getDevices();
 
         return this;
     },
@@ -132,6 +126,15 @@ var SignInView = Backbone.View.extend({
                 $row.hide();
             }
         }.bind(this));
+    },
+
+    // startDevices: function() {
+
+    // },
+
+    startFriends: function(e) {
+        e.preventDefault();
+        this.router.navigate('/friends', { trigger: true });
     }
 
 });

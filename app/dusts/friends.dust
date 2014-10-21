@@ -1,9 +1,9 @@
 <div>
-    <input type="text" id="searchFriends">
+    <input type="text" id="searchFriends" placeholder="search friends">
 </div>
 {#data}
 <li id="{.id}">
-    <span>{.username}</span>
-    <input type="radio" name="owner" value="{.id}" placeholder="search friends">
+    <a href="/friends/{.id}">{.username}</a>
+    <!-- <input type="radio" name="owner" value="{.id}" placeholder="search friends"> -->
 </li>
 {/data}
