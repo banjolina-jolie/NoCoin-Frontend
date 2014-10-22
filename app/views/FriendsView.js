@@ -32,7 +32,7 @@ var FriendsView = Backbone.View.extend({
         return this;
     },
 
-    getFriends: function() {
+    loadDependencies: function() {
         var user = this.user;
         var options = {
             userId: user.get('user').id,

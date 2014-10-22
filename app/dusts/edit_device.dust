@@ -1,0 +1,10 @@
+<div>
+    <label for="name">Name</label>
+    <input id="name" type="text" value="{name}">
+</div>
+<div>
+    <label for="price">Price</label>
+    <input id="price" type="text" value="{price}">
+</div>
+
+<button id="save-device">Save Device</button>

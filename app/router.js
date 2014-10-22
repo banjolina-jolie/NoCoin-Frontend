@@ -4,8 +4,10 @@ define(function(require, exports, module) {
     // External dependencies.
     var Backbone = require('backbone');
     var SignInView = require('./views/SignIn');
-    var FriendsView = require('./views/FriendsView');
+    var DeviceView = require('./views/DeviceView');
+    var DeviceListView = require('./views/DeviceListView');
     var SingleFriendView = require('./views/SingleFriendView');
+    var FriendsView = require('./views/FriendsView');
     var UserModel = require('./models/User');
 
     // Defining the application router.
@@ -14,11 +16,14 @@ define(function(require, exports, module) {
             '': 'index',
             'friends': 'friendsAction',
             'friends/:id': 'friendsAction',
-            'devices': 'devicesAction'
+            'devices': 'devicesAction',
+            'devices/:id': 'devicesAction'
         },
 
-        initialize: function() {
-            console.log('router init');
+        friendsAction: function(id) {
+            var view = id ? new SingleFriendView({ friendId: id }) : new FriendsView({ router: this, user: this.user });
+
+            view.loadDependencies();
         },
 
         execute: function(callback, args) {
@@ -47,9 +52,13 @@ define(function(require, exports, module) {
             }
         },
 
+        goHome: function() {
+            this.navigate('/', { trigger: true });
+        },
+
         login: function(route) {
             route = route || '';
-            var url = 'https://api.venmo.com/v1/oauth/authorize?client_id=2026&redirect_uri=http://localhost:8000/' + route + '&scope=access_friends%20make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=token';
+            var url = 'https://api.venmo.com/v1/oauth/authorize?client_id=2026&redirect_uri=http://localhost:8000/&scope=access_friends%20make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=token';
             window.location.href = url;
         },
 
@@ -70,22 +79,15 @@ define(function(require, exports, module) {
             view.render();
         },
 
-        friendsAction: function(id) {
-            var view;
-
-            if (id) {
-                view = new SingleFriendView({ friendId: id });
-
-                view.getFriend();
-            } else {
-                view = new FriendsView({ router: this, user: this.user });
-
-                view.getFriends();
-            }
-        },
-
-        devicesAction: function() {
-
+        devicesAction: function(id) {
+            var options = {
+                router: this,
+                user: this.user,
+                deviceId: id
+            };
+            var ViewConstructor = id ? DeviceView : DeviceListView;
+            var view = new ViewConstructor(options);
+            view.loadDependencies();
         }
     });
 

@@ -1,0 +1,7 @@
+<ul>
+    {#devices}
+    <li>
+        <a href="/devices/{.id}">{.name}</a>
+    </li>
+    {/devices}
+</ul>

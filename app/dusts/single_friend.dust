@@ -1,5 +1,9 @@
-Supdawg
-
 <div>
-    {username}
+    {display_name}
 </div>
+
+<ul>
+    {#devices}
+    <li>{.name}</li>
+    {/devices}
+</ul>

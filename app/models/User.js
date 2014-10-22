@@ -10,6 +10,9 @@ var User = Backbone.Model.extend({
         if (!res.data) {
             this.trigger('error');
         }
+        if (res.devices) {
+            this.devices = res.devices;
+        }
         return res.data;
     }
 

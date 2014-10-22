@@ -28,7 +28,7 @@ var FriendsView = Backbone.View.extend({
         return this;
     },
 
-    getFriend: function() {
+    loadDependencies: function() {
         this.friend = new Friend({ id: this.friendId });
 
         this.listenToOnce(this.friend, 'sync', this.render);
