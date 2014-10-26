@@ -46,7 +46,6 @@ var FriendsView = Backbone.View.extend({
     },
 
     renderFriends: function(options) {
-
         var data = this.friends.toJSON();
 
         dust.render('friends', {data: data}, function(err, out) {
@@ -62,7 +61,7 @@ var FriendsView = Backbone.View.extend({
         friend = $(friend).val();
 
         $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: 'http://localhost:3000/payfriend',
             data: {
                 user_id: friend,

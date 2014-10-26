@@ -1,2 +1,11 @@
-<div>{name}</div>
-<div>{price}</div>
+
+<div>
+    <label for="name">Name</label>
+    {name}
+</div>
+<div>
+    <label for="price">Price</label>
+    {price}
+</div>
+<br>
+<button id="payNow">pay now</button>

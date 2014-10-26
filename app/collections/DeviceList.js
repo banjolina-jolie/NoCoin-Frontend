@@ -1,4 +1,5 @@
 var Backbone = require('backbone');
+var Device = require('../models/Device');
 
 var DeviceList = Backbone.Collection.extend({
 
@@ -7,8 +8,17 @@ var DeviceList = Backbone.Collection.extend({
         this.userId = options.userId;
     },
 
+    model: Device,
+
     url: function() {
         return 'http://localhost:3000/devices';
+    },
+
+    parse: function(res) {
+        if (res._id) {
+            res.id = res._id;
+        }
+        return res;
     }
 });
 

@@ -4,6 +4,8 @@
 
 <ul>
     {#devices}
-    <li>{.name}</li>
+    <li>
+        <a href="/devices/{._id}">{.name}</a>
+    </li>
     {/devices}
 </ul>
