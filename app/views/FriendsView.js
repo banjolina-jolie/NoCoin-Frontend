@@ -35,39 +35,14 @@ var FriendsView = Backbone.View.extend({
     loadDependencies: function() {
         var user = this.user;
         var options = {
-            userId: user.get('user').id,
-            accessToken: user.get('accessToken')
+            userId: user.get('venmo_id'),
+            accessToken: user.get('access_token')
         };
         this.friends = this. friends || new FriendsList([], options);
 
         this.listenToOnce(this.friends, 'sync', this.render);
 
         this.friends.fetch();
-    },
-
-    renderFriends: function(options) {
-        var data = this.friends.toJSON();
-
-        dust.render('friends', {data: data}, function(err, out) {
-            this.$el.append(out);
-        }.bind(this));
-    },
-
-    makePayment: function() {
-        var friend = _.find($('[name=owner]'), function(input){
-            return $(input).prop('checked');
-        });
-
-        friend = $(friend).val();
-
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:3000/payfriend',
-            data: {
-                user_id: friend,
-                access_token: this.user.get('accessToken')
-            }
-        });
     },
 
     searchFriends: function(e) {

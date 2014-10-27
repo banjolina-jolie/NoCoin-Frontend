@@ -3,17 +3,17 @@ var Backbone = require('backbone');
 var User = Backbone.Model.extend({
 
     url: function() {
-        return 'http://localhost:3000/me?access_token=' + this.get('accessToken');
+        return 'http://localhost:3000/users/' + this.id;
     },
 
     parse: function(res) {
-        if (!res.data) {
-            this.trigger('error');
-        }
         if (res.devices) {
             this.devices = res.devices;
         }
-        return res.data;
+        if (res._id) {
+            this.set('id', res._id);
+        }
+        return res;
     }
 
 });

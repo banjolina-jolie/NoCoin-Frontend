@@ -3,6 +3,7 @@ define(function(require, exports, module) {
 
     // External dependencies.
     var Backbone = require('backbone');
+    var simpleStorage = require('simpleStorage');
     var SignInView = require('./views/SignIn');
     var DeviceView = require('./views/DeviceView');
     var DeviceListView = require('./views/DeviceListView');
@@ -27,38 +28,62 @@ define(function(require, exports, module) {
         },
 
         execute: function(callback, args) {
-            this.accessToken = this.accessToken || this.getQueryVariable('access_token');
-            if (!this.accessToken) {
-                this.login();
+            if (!this.user) {
+                this.setup(callback, args);
                 return;
             }
             if (callback) {
-                this.setup(callback, args);
+                callback.apply(this, args);
             }
         },
 
         setup: function(callback, args) {
             if (!this.user) {
-                this.user = new UserModel({ accessToken: this.accessToken });
+                if (this.getQueryVariable('code')) {
+                    this.exchangeAuthCode(callback, args);
+                    return;
+                }
+                // get localStorage mongoId
+                var noQuarterId = simpleStorage.get('no_quarter_id');
+
+                if (!noQuarterId) {
+                    this.getAuthCode();
+                    return;
+                }
+
+                this.user = new UserModel({ id: noQuarterId });
 
                 this.listenToOnce(this.user, 'sync', function() {
                     callback.apply(this, args);
                 }.bind(this));
 
-                this.listenToOnce(this.user, 'error', this.login);
                 this.user.fetch();
             } else {
                 callback.apply(this, args);
             }
         },
 
+        exchangeAuthCode: function(callback, args) {
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:3000/me',
+                data: {
+                    code: this.getQueryVariable('code')
+                },
+                success: function(res) {
+                    simpleStorage.set('no_quarter_id', res._id);
+                    this.user = new UserModel(res, { parse: true });
+                    callback.apply(this, args);
+                }.bind(this)
+            });
+        },
+
         goHome: function() {
             this.navigate('/', { trigger: true });
         },
 
-        login: function(route) {
-            route = route || '';
-            var url = 'https://api.venmo.com/v1/oauth/authorize?client_id=2026&redirect_uri=http://localhost:8000/&scope=access_friends%20make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=token';
+        getAuthCode: function() {
+            var url = 'https://api.venmo.com/v1/oauth/authorize?client_id=2026&redirect_uri=http://localhost:8000/&scope=access_friends%20make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code';
             window.location.href = url;
         },
 
