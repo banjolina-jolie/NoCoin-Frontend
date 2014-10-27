@@ -14,9 +14,6 @@ var SignInView = Backbone.View.extend({
         this.user = options.user;
         this.router = options.router;
     },
-    loadDependencies: function() {
-        this.devices = new DeviceList();
-    },
     render: function() {
         var data = this.user.toJSON();
         data.devices = this.user.devices;

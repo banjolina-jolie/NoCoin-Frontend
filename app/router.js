@@ -78,10 +78,6 @@ define(function(require, exports, module) {
             });
         },
 
-        goHome: function() {
-            this.navigate('/', { trigger: true });
-        },
-
         getAuthCode: function() {
             var url = 'https://api.venmo.com/v1/oauth/authorize?client_id=2026&redirect_uri=http://localhost:8000/&scope=access_friends%20make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code';
             window.location.href = url;
@@ -100,7 +96,6 @@ define(function(require, exports, module) {
 
         index: function() {
             var view = new SignInView({ router: this, user: this.user });
-
             view.render();
         },
 

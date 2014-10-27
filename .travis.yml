@@ -7,5 +7,4 @@ branches:
     - master
 
 before_script:
-  - npm install -gq grunt-cli bower coveralls
   - bower install

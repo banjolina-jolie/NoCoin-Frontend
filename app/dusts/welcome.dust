@@ -8,6 +8,11 @@
     <a href="/devices/new"><button>Upload Device</button></a>
 </div>
 
+<div>
+    My Devices
+</div>
+<ul>
 {#devices}
-    <span>{.name} </span>
+    <li><a href="/devices/{._id}">{.name}</a></li>
 {/devices}
+</ul>

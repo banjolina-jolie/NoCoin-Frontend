@@ -21,7 +21,6 @@ var FriendsView = Backbone.View.extend({
         this.setElement('#single-friend-view');
 
         var data = this.friend.toJSON();
-        console.log(data);
         dust.render('single_friend', data, function(err, out) {
             this.$el.html(out);
         }.bind(this));
