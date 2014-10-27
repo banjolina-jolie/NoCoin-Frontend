@@ -5,4 +5,6 @@ module.exports = ->
   @config "clean", [
     "dist/"
     "test/reports"
+    "temp_styles"
+    "compiled_styles"
   ]

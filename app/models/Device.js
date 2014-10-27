@@ -1,15 +1,17 @@
-var Backbone = require('backbone');
+define(function(require, exports, module) {
+    var Backbone = require('backbone');
 
-var Device = Backbone.Model.extend({
+    var Device = Backbone.Model.extend({
 
-    urlRoot: 'http://localhost:3000/devices',
+        urlRoot: 'http://localhost:3000/devices',
 
-    parse: function(res) {
-        res.id = res._id;
+        parse: function(res) {
+            res.id = res._id;
 
-        return res;
-    }
+            return res;
+        }
 
+    });
+
+    module.exports = Device;
 });
-
-module.exports = Device;

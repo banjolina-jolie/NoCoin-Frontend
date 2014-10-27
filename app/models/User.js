@@ -1,21 +1,23 @@
-var Backbone = require('backbone');
+define(function(require, exports, module) {
+    var Backbone = require('backbone');
 
-var User = Backbone.Model.extend({
+    var User = Backbone.Model.extend({
 
-    url: function() {
-        return 'http://localhost:3000/users/' + this.id;
-    },
+        url: function() {
+            return 'http://localhost:3000/users/' + this.id;
+        },
 
-    parse: function(res) {
-        if (res.devices) {
-            this.devices = res.devices;
+        parse: function(res) {
+            if (res.devices) {
+                this.devices = res.devices;
+            }
+            if (res._id) {
+                this.set('id', res._id);
+            }
+            return res;
         }
-        if (res._id) {
-            this.set('id', res._id);
-        }
-        return res;
-    }
 
+    });
+
+    module.exports = User;
 });
-
-module.exports = User;

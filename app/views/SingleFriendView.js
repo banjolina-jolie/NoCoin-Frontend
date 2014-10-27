@@ -1,41 +1,43 @@
-var Backbone = require('backbone');
-var Friend = require('../models/Friend');
+define(function(require, exports, module) {
+    var Backbone = require('backbone');
+    var Friend = require('../models/Friend');
 
-var FriendsView = Backbone.View.extend({
+    var FriendsView = Backbone.View.extend({
 
-    id: 'single-friend-view',
+        id: 'single-friend-view',
 
-    events: {
-    },
+        events: {
+        },
 
-    initialize: function(options) {
-        this.friendId = options.friendId;
-    },
+        initialize: function(options) {
+            this.friendId = options.friendId;
+        },
 
-    render: function() {
-        var el = document.createElement('div');
-        var $el = $(el);
-        $el.attr('id', this.id);
+        render: function() {
+            var el = document.createElement('div');
+            var $el = $(el);
+            $el.attr('id', this.id);
 
-        $('#main').html($el);
-        this.setElement('#single-friend-view');
+            $('#main').html($el);
+            this.setElement('#single-friend-view');
 
-        var data = this.friend.toJSON();
-        dust.render('single_friend', data, function(err, out) {
-            this.$el.html(out);
-        }.bind(this));
+            var data = this.friend.toJSON();
+            dust.render('single_friend', data, function(err, out) {
+                this.$el.html(out);
+            }.bind(this));
 
-        return this;
-    },
+            return this;
+        },
 
-    loadDependencies: function() {
-        this.friend = new Friend({ id: this.friendId });
+        loadDependencies: function() {
+            this.friend = new Friend({ id: this.friendId });
 
-        this.listenToOnce(this.friend, 'sync', this.render);
+            this.listenToOnce(this.friend, 'sync', this.render);
 
-        this.friend.fetch();
-    }
+            this.friend.fetch();
+        }
 
+    });
+
+    module.exports = FriendsView;
 });
-
-module.exports = FriendsView;

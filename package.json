@@ -13,7 +13,10 @@
     "grunt-processhtml": "~0.3.3",
     "grunt-bbb-styles": "~0.1.0-alpha.5",
     "grunt-bbb-server": "~0.1.0-alpha.13",
-    "grunt-dustjs": "~0.2.2"
+    "grunt-dustjs": "~0.2.2",
+    "grunt-libsass": "~0.2.0",
+    "connect-livereload": "~0.3.0",
+    "request": "*"
   },
   "peerDependencies": {
     "generator-bbb": "*",

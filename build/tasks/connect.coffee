@@ -1,3 +1,5 @@
+config = require('../connect_config')
+
 module.exports = ->
     @loadNpmTasks "grunt-contrib-connect"
 
@@ -5,5 +7,10 @@ module.exports = ->
         server:
             options:
                 port: 8000
-                # livereload: true
-                keepalive: true
+                hostname: '0.0.0.0'
+                livereload: true
+                # middleware: (connect)->
+                #     return [
+                #         require('connect-livereload')()
+                #         config.pushStateHook('http://localhost:8000')
+                #     ];

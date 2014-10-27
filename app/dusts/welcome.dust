@@ -1,18 +1,19 @@
 <div>
-    <a href="/devices"><button id="start-devices">Search Devices</button></a>
-</div>
-<div>
-    <a href="/friends"><button id="start-friends">Search Friends</button></a>
-</div>
-<div>
-    <a href="/devices/new"><button>Upload Device</button></a>
+    welcome, {name}
 </div>
 
-<div>
-    My Devices
+<div class="homepage-btns">
+    <div class="btn-container"><a class="btn" href="/devices">Search Devices</a></div>
+    <div class="btn-container"><a class="btn" href="/friends">Search Friends</a></div>
+    <div class="btn-container"><a class="btn" href="/devices/new">Upload Device</a></div>
 </div>
-<ul>
-{#devices}
-    <li><a href="/devices/{._id}">{.name}</a></li>
-{/devices}
-</ul>
+
+<div class="my-devices">
+    <div>My Devices</div>
+
+    <ul>
+    {#devices}
+        <li><a href="/devices/{._id}">{.name}</a></li>
+    {/devices}
+    </ul>
+</div>
