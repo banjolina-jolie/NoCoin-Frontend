@@ -2,3 +2,5 @@
 /node_modules/
 /bower_components/
 /test/coverage/
+compiled_styles.css
+dusts.js

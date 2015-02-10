@@ -71,6 +71,9 @@ define(function(require, exports, module) {
                     code: this.getQueryVariable('code')
                 },
                 success: function(res) {
+                    this.navigate('/ah');
+                    this.navigate('/');
+                    res = JSON.parse(res);
                     simpleStorage.set('no_quarter_id', res._id);
                     this.user = new UserModel(res, { parse: true });
                     callback.apply(this, args);

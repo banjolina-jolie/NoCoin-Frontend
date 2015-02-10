@@ -2,6 +2,8 @@
     welcome, {name}
 </div>
 
+<button id="log-out">Log Out</button>
+
 <div class="homepage-btns">
     <div class="btn-container"><a class="btn" href="/devices">Search Devices</a></div>
     <div class="btn-container"><a class="btn" href="/friends">Search Friends</a></div>

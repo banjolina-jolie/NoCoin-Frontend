@@ -1,5 +1,6 @@
 define(function(require, exports, module) {
     var Backbone = require('backbone');
+    var simpleStorage = require('simpleStorage');
     var app = require('app');
     var FriendsList = require('../collections/FriendsList');
     var UserModel = require('../models/User');
@@ -10,6 +11,7 @@ define(function(require, exports, module) {
         el: '#main',
 
         events: {
+            'click #log-out': 'logOut'
         },
         initialize: function(options) {
 
@@ -25,6 +27,10 @@ define(function(require, exports, module) {
             }.bind(this));
 
             return this;
+        },
+        logOut: function() {
+            simpleStorage.deleteKey('no_quarter_id');
+            window.location.href = "http://localhost:8000";
         }
     });
 

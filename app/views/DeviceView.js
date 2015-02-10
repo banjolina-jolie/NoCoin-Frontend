@@ -21,11 +21,15 @@ define(function(require, exports, module) {
                 this.render('edit_device');
             } else {
                 this.device = new Device({ id: this.deviceId });
-                this.listenToOnce(this.device, 'sync', function() {
-                    this.render();
-                }.bind(this));
+                this.listenToOnce(this.device, 'sync', this.preRender);
                 this.device.fetch();
             }
+        },
+        preRender: function() {
+            var myVenmoId = this.user.get('venmo_id');
+            var deviceOwner = this.device.get('owner');
+            var template = (myVenmoId === deviceOwner) ? 'edit_device' : 'single_device';
+            this.render(template);
         },
         render: function(template) {
             template = template || 'single_device';
@@ -36,26 +40,20 @@ define(function(require, exports, module) {
             $('#main').html($el);
             this.setElement('#single-device-view');
             var data = this.device.toJSON();
+
             dust.render(template, data, function(err, out) {
                 this.$el.html(out);
             }.bind(this));
 
             return this;
         },
-        getDevice: function() {
-            this.device = new Device({ id: this.deviceId });
-
-            this.listenToOnce(this.device, 'sync', this.render);
-
-            this.device.fetch();
-        },
         saveDevice: function() {
             var name = this.$('#name').val();
             var price = Number(this.$('#price').val());
-            var owner = this.user.get('user').id;
+            var owner = this.user.venmo_id;
 
             this.listenToOnce(this.device, 'sync', function() {
-                this.router.goHome();
+                this.router.navigate('/', {trigger: true});
             }.bind(this));
 
             this.device.save({
